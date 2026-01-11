@@ -1,0 +1,67 @@
+dag_type: plain_text
+description: Open the Yahoo Finance webpage, search for WDC, and obtain share price
+  data
+name: open-yahoo-finance-webpage
+nodes:
+  find-share-price-section:
+    agent: false
+    description: Locates the share price section of WDC's search result
+    name: find-share-price-section
+    nodes_depended_on:
+    - search-for-wdc
+    nodes_dependent_on: []
+    prompt: Locate the 'price section' of WDC's results, which displays the current
+      share price and real-time market data.
+  forecast-next-day-close:
+    agent: false
+    description: Makes a prediction for the next day's closing price of WDC
+    name: forecast-next-day-close
+    nodes_depended_on:
+    - parse-share-price-data
+    nodes_dependent_on: []
+    prompt: Use time-series analysis or forecasting techniques to predict WDC's next
+      day's closing price, based on its historical data.
+  navigate-to-yahoo-finance:
+    agent: false
+    description: Navigates the web browser to the Yahoo Finance webpage
+    name: navigate-to-yahoo-finance
+    nodes_depended_on:
+    - open-web-browser
+    nodes_dependent_on: []
+    prompt: Type https://finance.yahoo.com/ in the web browser's navigation bar. Press
+      Enter to navigate to Yahoo Finance.
+  open-web-browser:
+    agent: false
+    description: Opens the web browser instance necessary for further steps
+    name: open-web-browser
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Open a new instance of your default web browser.
+  parse-share-price-data:
+    agent: false
+    description: Converts the extracted share price data into a format suitable for
+      predictive analysis
+    name: parse-share-price-data
+    nodes_depended_on:
+    - scrape-share-price-data
+    nodes_dependent_on: []
+    prompt: Manipulate the extracted share price data using data processing techniques,
+      including conversion to a usable data format for predictive analysis.
+  scrape-share-price-data:
+    agent: false
+    description: Extracts the share price data from WDC's search result
+    name: scrape-share-price-data
+    nodes_depended_on:
+    - find-share-price-section
+    nodes_dependent_on: []
+    prompt: Use web scraping techniques or a web-scraper tool to extract the WDC's
+      current share price data, including market data such as price, high, low, open,
+      close, volume, and trading status.
+  search-for-wdc:
+    agent: false
+    description: Searches for WDC on Yahoo Finance's search bar
+    name: search-for-wdc
+    nodes_depended_on:
+    - navigate-to-yahoo-finance
+    nodes_dependent_on: []
+    prompt: Type 'WDC' in the search bar. Press Enter to initiate the search.
